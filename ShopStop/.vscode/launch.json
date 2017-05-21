@@ -6,10 +6,30 @@
   "configurations": [
     {
       "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 5858,
+      "restart": true
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceRoot}/index.js",
       "protocol": "inspector"
+    },
+    {
+      "name": "Launch server.js via nodemon",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceRoot}/index.js",
+      "restart": true,
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "timeout": 60000
     }
   ]
 }
