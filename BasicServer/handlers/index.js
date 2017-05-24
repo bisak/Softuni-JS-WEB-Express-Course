@@ -3,7 +3,6 @@ const staticFilesHandler = require('./static-files')
 const homePageHandler = require('./home-page')
 const addHandler = require('./add')
 const listHander = require('./list')
-const detailsHandler = require('./details')
 const headerHandler = require('./header')
 
 module.exports = [
@@ -12,6 +11,5 @@ module.exports = [
   staticFilesHandler,
   homePageHandler,
   addHandler,
-  listHander,
-  detailsHandler
+  listHander
 ]

@@ -1,26 +1,31 @@
-let storage = [
-  {
-    name: 'test',
-    imageUrl: 'http://nodeframework.com/assets/img/js.png'
-  },
-  {
-    name: 'test2',
-    imageUrl: 'http://jscoderetreat.com/img/why-js.png'
-  },
-  {
-    name: 'JS',
-    imageUrl: 'https://raw.github.com/ottawajs/logo.js/master/ottawajs/OttawaJS.png'
-  }
-]
+const fs = require('fs')
+const path = require('path')
+const dbPath = path.join(__dirname, '/database.json')
 
-module.exports = {
-  getAll () {
-    return storage
+const getProducts = () => {
+  if (!fs.existsSync(dbPath)) {
+    fs.writeFileSync(dbPath, '[]')
+    return []
+  }
+  let json = fs.readFileSync(dbPath).toString() || '[]'
+  let products = JSON.parse(json)
+  return products
+}
+
+const saveProducts = (products) => {
+  let json = JSON.stringify(products)
+  fs.writeFileSync(dbPath, json)
+}
+
+module.exports.products = {
+  getAll: getProducts,
+  add: (product) => {
+    const products = getProducts()
+    product.id = products.length + 1
+    products.push(product)
+    saveProducts(products)
   },
-  addNew (data) {
-    storage.push(data)
-  },
-  getItem (index) {
-    return storage[index]
+  findByName: (name) => {
+    return getProducts().filter(p => p.name.toLowerCase().includes(name))
   }
 }

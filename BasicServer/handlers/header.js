@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const db = require('../config/database')
+const db = require('../config/database.js')
 
 module.exports = (req, res) => {
   let statusHeader = req.headers['statusheader'] || req.headers['StatusHeader']
@@ -16,7 +16,7 @@ module.exports = (req, res) => {
         'Content-Type': 'text/html'
       })
       let content = ''
-      let pictures = db.getAll().length
+      let pictures = db.products.getAll().length
       content += `There are ${pictures} pictures.`
       let html = data.toString().replace('{{content}}', content)
       res.write(html)

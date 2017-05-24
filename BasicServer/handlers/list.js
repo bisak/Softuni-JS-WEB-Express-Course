@@ -15,9 +15,19 @@ module.exports = (req, res) => {
         'Content-Type': 'text/html'
       })
       let content = '<ol start="0">'
-      let pictures = db.getAll()
-      for (let [index, picture] of pictures.entries()) {
-        content += `<li><a href="details/${index}"><h3>${picture.name}</h3></a></li>`
+      let pictures = db.products.getAll()
+      for (let picture of pictures) {
+        if (!picture.isPrivate) {
+          content += `
+          <li>
+            <div>
+              <a href="${picture.image}"><h3>${picture.name}</h3></a>
+              <a href="${picture.image}"><img src="${picture.image}"></a>
+              <br>
+              <a href="${picture.image}"><span class="smallText">Click to download.</span></a>
+            </div>
+          </li>`
+        }
       }
       content += '</ol>'
       let html = data.toString().replace('{{content}}', content)
