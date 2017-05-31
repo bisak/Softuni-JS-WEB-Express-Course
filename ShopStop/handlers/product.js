@@ -3,96 +3,119 @@ const Product = require('../models/Product')
 const Category = require('../models/Category')
 const fs = require('fs')
 const path = require('path')
-const qs = require('querystring')
 const multiparty = require('multiparty')
 const shortid = require('shortid')
 
-module.exports = (req, res) => {
-  req.pathname = req.pathname || url.parse(req.url).pathname
+module.exports.addGet = (req, res) => {
+  Category.find().then((categories) => {
+    res.render('products/add', { categories: categories })
+  })
+}
+module.exports.addPost = (req, res) => {
+  let productObj = req.body
+  productObj.image = '\\' + req.file.path
 
-  if (req.pathname === '/product/add' && req.method === 'GET') {
-    let filePath = path.normalize(path.join(__dirname, '../views/products/add.html'))
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        console.log(err)
-        res.writeHead(404, {
-          'Content-Type': 'text/plain'
-        })
-        res.write('404 not found!')
-        return res.end()
-      }
-
-      Category.find().then((categories) => {
-        let replacement = '<select class="input-field" name="category">'
-        for (let category of categories) {
-          replacement += `<option value="${category._id}">${category.name}</option>`
-        }
-        replacement += '</select>'
-        let html = data.toString().replace('{categories}', replacement)
-
-        res.writeHead(200, {
-          'Content-Type': 'text/html'
-        })
-        res.write(html)
-        res.end()
+  Product.create(productObj).then((insertedProduct) => {
+    return Category.findById(insertedProduct.category).then(category => {
+      category.products.push(insertedProduct._id)
+      category.save()
+      res.redirect('/')
+    })
+  }).catch((err) => {
+    console.log(err)
+  })
+}
+module.exports.editGet = (req, res) => {
+  let id = req.params.id
+  Product.findById(id).then(product => {
+    if (!product) {
+      return res.sendStatus(404)
+    }
+    Category.find().then((categories) => {
+      res.render('products/edit', {
+        product: product,
+        categories: categories
       })
     })
-  } else if (req.pathname === '/product/add' && req.method === 'POST') {
-    let form = new multiparty.Form()
-    form.parse(req)
+  })
+}
+module.exports.editPost = (req, res) => {
+  let id = req.params.id
+  let editedProduct = req.body
 
-    let product = {}
-    form.on('error', (error) => {
-      console.log(error)
-    })
-    form.on('part', (part) => {
-      if (part.filename) {
-        let dataString = ''
+  Product.findById(id).then((product) => {
+    if (!product) {
+      return res.redirect(`/?error=${encodeURIComponent('error=Product was not found!')}`)
+    }
 
-        part.setEncoding('binary')
-        part.on('data', (data) => {
-          dataString += data
-        })
+    product.name = editedProduct.name
+    product.description = editedProduct.description
+    product.price = editedProduct.price
+    if (req.file) {
+      fs.unlinkSync(path.normalize(path.join(__dirname, '..', product.image.substr(1)/* Don't ask... */)))
+      product.image = '\\' + req.file.path
+    }
 
-        part.on('end', () => {
-          let fileName = shortid.generate()
-          let fileExt = part.filename.slice(part.filename.lastIndexOf('.'))
-          let filePath = path.normalize(path.join(__dirname, '..', 'content', 'images', `${fileName}${fileExt}`))
-          product.image = path.normalize(path.join('content', 'images', `${fileName}${fileExt}`))
-          fs.writeFile(`${filePath}`, dataString, { encoding: 'ascii' }, (err) => {
-            if (err) {
-              console.log(err)
-              return false
-            }
+    if (product.category.toString() !== editedProduct.category) {
+      Category.findById(product.category).then((currentCategory) => {
+        Category.findById(editedProduct.category).then((nextCategory) => {
+          let index = currentCategory.products.indexOf(product._id)
+          if (index >= 0) {
+            currentCategory.products.splice(index, 1)
+          }
+          currentCategory.save()
+
+          nextCategory.products.push(product._id)
+          nextCategory.save()
+
+          product.category = editedProduct.category
+
+          product.save().then(() => {
+            res.redirect(`/?success=${encodeURIComponent('Product was edited successfully!')}`)
           })
-        })
-      } else {
-        part.setEncoding('utf-8')
-        let field = ''
-        part.on('data', (data) => {
-          field += data
-        })
-
-        part.on('end', () => {
-          product[part.name] = field
-        })
-      }
-    })
-
-    form.on('close', () => {
-      Product.create(product).then((insertedProduct) => {
-        Category.findById(product.category).then(category => {
-          category.products.push(insertedProduct._id)
-          category.save()
-
-          res.writeHead(302, {
-            Location: '/'
-          })
-          res.end()
         })
       })
+    } else {
+      product.save().then(() => {
+        res.redirect(`/?success=${encodeURIComponent('Product was edited successfully!')}`)
+      })
+    }
+  })
+}
+module.exports.deleteGet = (req, res) => {
+  let id = req.params.id
+  Product.findById(id).then(product => {
+    if (!product) {
+      return res.sendStatus(404)
+    }
+    res.render('products/delete', {
+      product: product
     })
-  } else {
-    return true
-  }
+  })
+}
+module.exports.deletePost = (req, res) => {
+  let id = req.params.id
+  Product.findByIdAndRemove(id).then((removedProduct) => {
+    Category.findById(removedProduct.category).then((currentCategory) => {
+      let index = currentCategory.products.indexOf(removedProduct._id)
+      if (index >= 0) {
+        currentCategory.products.splice(index, 1)
+      }
+      fs.unlinkSync(path.normalize(path.join(__dirname, '..', removedProduct.image.substr(1)/* Don't ask... */)))
+      currentCategory.save().then(() => {
+        return res.redirect(`/?success=${encodeURIComponent('Product was deleted successfully!')}`)
+      })
+    })
+  })
+}
+module.exports.buyGet = (req, res) => {
+  let id = req.params.id
+  Product.findById(id).then(product => {
+    if (!product) {
+      return res.sendStatus(404)
+    }
+    res.render('products/buy', {
+      product: product
+    })
+  })
 }
