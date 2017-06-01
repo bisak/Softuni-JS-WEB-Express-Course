@@ -1,0 +1,17 @@
+extends ../layout.pug
+ 
+block content
+  h1.head-title Welcome to CarStop!
+  form#search-form
+    input(type='text', name='query', placeholder='Search...')
+    input(type='submit', value='Search')
+  .cards
+    each product in products
+      .product-card
+        a(href=`/car-view/${product._id}`)
+          img.product-img(src=`${product.image}`)
+        h2=product.model
+        p=product.description
+        a.btn.btn-small.btn-warning(href=`/product/edit/${product._id}`)= 'Edit'
+        a.btn.btn-small.btn-danger(href=`/product/delete/${product._id}`)= 'Delete'
+        a.btn.btn-small.btn-primary(href=`/category/${product.owner.name}/products`)=`More ${product.owner.name} Cars`

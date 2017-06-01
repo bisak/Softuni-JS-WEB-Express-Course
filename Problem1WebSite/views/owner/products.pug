@@ -1,0 +1,14 @@
+extends ../layout.pug
+ 
+block content
+ 
+  h2=`All ${owner.name} Cars`
+  .cards
+  each car in owner.cars
+    .product-card
+      img.product-img(src=`${car.image}`)
+      h2=car.model
+      p=car.description
+      
+      a.btn.btn-small.btn-warning(href=`/product/edit/${car._id}`)= 'Edit'
+      a.btn.btn-small.btn-danger(href=`/product/delete/${car._id}`)= 'Delete'

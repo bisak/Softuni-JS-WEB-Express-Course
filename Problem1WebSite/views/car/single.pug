@@ -1,0 +1,6 @@
+extends ../layout.pug
+ 
+block content
+  h1='model: ' + car.model
+  h2='description: ' + car.description
+  img(src=`${car.image}`, style='width: 80%')

@@ -1,0 +1,21 @@
+extends ../layout.pug
+ 
+block content
+  form.form.center-form(method='post', enctype='multipart/form-data')
+    h2 Add Car
+    .form-group
+      label(for='name') Model
+      input#name.input-field(name='model', type='text', required)
+    .form-group
+      label(for='description') Description
+      textarea#description.input-field(name='description', type='text', required)
+    .form-group
+      label(for='image') Image
+      input#image.input-field(name='image', type='file', accept='.jpg,.jpeg,.png', required)
+    .form-group
+      label(for='description') Owner
+      select.input-field(name='owner')
+        each owner in owners
+          option(value=`${owner._id}`)=owner.name
+    .form-group
+      input.form-btn.btn(type='submit', value='Add')

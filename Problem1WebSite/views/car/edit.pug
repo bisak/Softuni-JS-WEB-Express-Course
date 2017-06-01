@@ -1,0 +1,25 @@
+extends ../layout.pug
+ 
+block content
+  form.form.center-form(method='post', enctype='multipart/form-data')
+    h2 Edit Car
+    .form-group
+      label(for='model') Model
+      input#name.input-field(name='model', type='text', value=car.model )
+    .form-group
+      label(for='description') Description
+      textarea#description.input-field(name='description', type='text')= car.description
+    .form-group
+      label(for='image') Image
+      input#image.input-field(name='image', type='file', accept='.jpg,.jpeg,.png')
+    .form-group
+      label(for='description') Group
+      select.input-field(name='owner')
+        each owner in owners
+          if (owner._id.equals(car.owner))
+            option(value=`${owner._id}` selected)=owner.name
+          else
+            option(value=`${owner._id}`)=owner.name
+ 
+    .form-group
+      input.form-btn.btn.btn-warning(type='submit', value='Edit')
