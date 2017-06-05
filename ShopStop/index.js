@@ -11,3 +11,4 @@ require('./config/express')(app, config[environment])
 require('./config/routes')(app)
 
 app.listen(port)
+
