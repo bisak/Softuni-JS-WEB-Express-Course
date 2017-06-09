@@ -1,0 +1,23 @@
+<div class="articles">
+  {{#each articles}}
+    <div>
+      <a href="/article/details/{{this._id}}"><h2 class="nopadmar"><strong>{{this.title}}</strong></h2></a>
+      <br>
+      <p class="nopadmar">{{this.content}}</p>
+      <br>
+      {{#if this.canEdit}}
+        <a href="/article/edit/{{this._id}}">Edit</a>
+        <a onclick="openConfirmDialog('{{this._id}}')" href="#">Delete</a>
+        <form id="{{this._id}}" action="/article/delete/{{this._id}}" method="POST"></form>
+      {{/if}}
+    </div>
+    <br>
+  {{/each}}
+</div>
+
+<script>
+  function openConfirmDialog(id){
+    if(confirm('Really delete post?'))
+    document.getElementById(id).submit()
+  }
+</script>

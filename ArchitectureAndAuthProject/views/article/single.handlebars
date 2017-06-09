@@ -1,0 +1,12 @@
+<h1>Article</h1>
+
+<div>
+  <h2 class="nopadmar"><strong>{{article.title}}</strong></h2>
+  <br>
+  <p class="nopadmar">{{article.content}}</p>
+  <br>
+  {{#if article.canEdit}}
+    <a href="/article/edit/{{article._id}}">Edit</a>
+    <a href="/article/delete/{{article._id}}">Delete</a>
+  {{/if}}
+</div>
