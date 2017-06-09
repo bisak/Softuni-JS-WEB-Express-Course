@@ -7,6 +7,14 @@
   <br>
   {{#if article.canEdit}}
     <a href="/article/edit/{{article._id}}">Edit</a>
-    <a href="/article/delete/{{article._id}}">Delete</a>
+    <a onclick="openConfirmDialog('{{article._id}}')" href="#">Delete</a>
+    <form id="{{article._id}}" action="/article/delete/{{article._id}}" method="POST"></form>
   {{/if}}
 </div>
+
+<script>
+  function openConfirmDialog(id){
+    if(confirm('Really delete post?'))
+      document.getElementById(id).submit()
+  }
+</script>
