@@ -1,0 +1,29 @@
+<div>
+  <div class="profile-top smb">
+    <h2>Profile Details</h2>
+    <p><strong>{{userData.username}}</strong></p>
+    <p><strong>({{userData.firstName}} {{userData.lastName}})</strong></p>
+  </div>
+
+  <div class="profile-left">
+    <h2>User Posts</h2>
+    <div>
+      {{#each userPosts}}
+        <p>{{this.title}}</p>
+      {{else}}
+        <p>No answers.</p>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="profile-right">
+    <h2>User Answers</h2>
+    <div>
+      {{#each answerData}}
+        <p>{{this.answer}}</p>
+      {{else}}
+        <p>No answers.</p>
+      {{/each}}
+    </div>
+  </div>
+</div>

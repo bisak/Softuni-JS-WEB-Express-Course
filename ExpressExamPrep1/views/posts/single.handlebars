@@ -1,0 +1,39 @@
+<div class="single-post">
+  <div>
+    <h3 style="margin: 5px;">{{title}}</h3>
+    <a href="/profile/{{user.username}}">{{user.username}}</a>
+    <p>{{description}}</p>
+  </div>
+  {{#if currentUser}}
+    <div class="smb">
+      <form method="post">
+        <label for="answer">Answer</label>
+        <br>
+        <textarea name="answer" id="answer" cols="40" rows="5" required></textarea>
+        <br>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  {{/if}}
+  {{#if answers}}
+    <div class="smb">
+      {{#each answers}}
+        <p>
+          <a href="/profile/{{this.user.username}}"><strong>{{this.user.username}}</strong></a> {{this.answer}}
+          {{#if ../isAdmin}}
+            <a href="/edit-answer/{{this._id}}">Edit</a>
+            <a href="/delete-answer/{{this._id}}">Delete</a>
+          {{/if}}
+        </p>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>No answers.</p>
+  {{/if}}
+  <div>
+    {{#if isAdmin}}
+      <a href="/post/edit/{{_id}}">Edit</a>
+      <a href="/post/delete/{{_id}}">Delete</a>
+    {{/if}}
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div style="text-align: center;">
+  {{#each posts}}
+    <div class="smb">
+      <a href="{{this.singlePostUrl}}"><h3 style="display: inline;">{{this.title}}</h3></a>
+      <br>
+      <a href="/profile/{{this.user.username}}">{{this.user.username}}</a>
+      <p>{{this.description}}</p>
+    </div>
+  {{else}}
+    <h2>No posts available.</h2>
+  {{/each}}
+</div>
