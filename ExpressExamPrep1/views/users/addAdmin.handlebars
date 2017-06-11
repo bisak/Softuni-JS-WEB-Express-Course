@@ -1,0 +1,13 @@
+<div style="text-align: center;">
+  <h1>Add admin</h1>
+  <form method="post">
+    <label for="selection">Select Admin to add</label>
+    <br>
+    <select style="width: 20%;" id="selection" name="candidateAdmin" required>
+      {{#each users}}
+        <option value="{{this._id}}">{{this.username}}</option>
+      {{/each}}
+    </select>
+    <input type="submit">
+  </form>
+</div>

@@ -1,0 +1,11 @@
+<div style="text-align: center;">
+  <h1>Posts for category: {{name}}</h1>
+  {{#each posts}}
+    <div class="smb">
+    <h2>{{this.title}}</h2>
+    <p>{{this.description}}</p>
+    </div>
+  {{else}}
+    <h2>No posts in this category.</h2>
+  {{/each}}
+</div>

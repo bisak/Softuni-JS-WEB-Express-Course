@@ -12,6 +12,7 @@ module.exports = (app) => {
   app.post('/users/logout', controllers.users.logout)
   app.get('/add', auth.isAuthenticated, controllers.posts.getPostView)
   app.post('/add', auth.isAuthenticated, controllers.posts.addPost)
+  app.get('/list/:category', controllers.posts.renderPostsForCategory)
   app.get('/list', controllers.posts.renderPosts)
   app.get('/post/edit/:id', auth.isInRole('Admin'), controllers.posts.getEditView)
   app.post('/post/edit/:id', auth.isInRole('Admin'), controllers.posts.editPost)
@@ -21,9 +22,21 @@ module.exports = (app) => {
   app.post('/edit-answer/:id', auth.isInRole('Admin'), controllers.posts.editAnswer)
   app.get('/delete-answer/:id', auth.isInRole('Admin'), controllers.posts.getDeleteAnswerView)
   app.post('/delete-answer/:id', auth.isInRole('Admin'), controllers.posts.deleteAnswer)
+  app.post('/like-post/:id', auth.isAuthenticated, controllers.posts.likePost)
+  app.post('/unlike-post/:id', auth.isAuthenticated, controllers.posts.unLikePost)
   app.get('/post/:id/:title', controllers.posts.getSinglePostView)
   app.post('/post/:id/:title', auth.isAuthenticated, controllers.posts.setAnswer)
   app.get('/profile/:username', controllers.users.getUserProfile)
+  app.get('/admins/add', auth.isInRole('Admin'), controllers.users.getAddAdminView)
+  app.post('/admins/add', auth.isInRole('Admin'), controllers.users.addNewAdmin)
+  app.get('/admins/all', auth.isInRole('Admin'), controllers.users.getAllAdminsView)
+  app.get('/category/add', auth.isInRole('Admin'), controllers.categories.getAddCategoryView)
+  app.post('/category/add', auth.isInRole('Admin'), controllers.categories.addCategory)
+  app.get('/categories', controllers.categories.getAllCategoriesView)
+
+  app.post('/block-user/:id', auth.isInRole('Admin'), controllers.users.blockUser)
+  app.post('/unblock-user/:id', auth.isInRole('Admin'), controllers.users.unBlockUser)
+
 
   app.all('*', (req, res) => {
     res.status(404)

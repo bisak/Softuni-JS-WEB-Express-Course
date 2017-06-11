@@ -1,7 +1,7 @@
 <div class="single-post">
   <div>
-    <h3 style="margin: 5px;">{{title}}</h3>
-    <a href="/profile/{{user.username}}">{{user.username}}</a>
+    <h3 style="margin: 5px; display: inline;">{{title}}</h3> <span>{{views}} views</span>
+    <a style="display: block;" href="/profile/{{user.username}}">{{user.username}}</a>
     <p>{{description}}</p>
   </div>
   {{#if currentUser}}
@@ -14,7 +14,21 @@
         <input type="submit" value="Submit">
       </form>
     </div>
+    <div class="smb">
+
+      {{#if isLikedByCurrentUser}}
+        <a href="javascript:document.getElementById('unlike-form').submit()">Unlike</a>
+        <form id="unlike-form" action="/unlike-post/{{_id}}" method="POST"></form>
+      {{else}}
+        <a href="javascript:document.getElementById('like-form').submit()">Like</a>
+        <form id="like-form" action="/like-post/{{_id}}" method="POST"></form>
+      {{/if}}
+
+    </div>
   {{/if}}
+
+  <p>{{likesCount}} likes</p>
+
   {{#if answers}}
     <div class="smb">
       {{#each answers}}

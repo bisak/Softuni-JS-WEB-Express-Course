@@ -5,25 +5,42 @@
     <p><strong>({{userData.firstName}} {{userData.lastName}})</strong></p>
   </div>
 
-  <div class="profile-left">
-    <h2>User Posts</h2>
-    <div>
-      {{#each userPosts}}
-        <p>{{this.title}}</p>
+  {{#if isAdmin}}
+    <div style="float: right;">
+      {{#if userData.isBlocked}}
+        <form id="unblock-form" action="/unblock-user/{{userData._id}}" method="POST"></form>
+        <a href="javascript:document.getElementById('unblock-form').submit()"><strong>Unblock
+          user</strong></a>
       {{else}}
-        <p>No answers.</p>
-      {{/each}}
+        <form id="block-form" action="/block-user/{{userData._id}}" method="POST"></form>
+        <a href="javascript:document.getElementById('block-form').submit()"><strong>Block
+          user</strong></a>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  <div style="padding-top: 30px">
+    <div class="profile-left">
+      <h2>User Posts</h2>
+      <div>
+        {{#each userPosts}}
+          <p>{{this.title}}</p>
+        {{else}}
+          <p>No answers.</p>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="profile-right">
+      <h2>User Answers</h2>
+      <div>
+        {{#each answerData}}
+          <p>{{this.answer}}</p>
+        {{else}}
+          <p>No answers.</p>
+        {{/each}}
+      </div>
     </div>
   </div>
 
-  <div class="profile-right">
-    <h2>User Answers</h2>
-    <div>
-      {{#each answerData}}
-        <p>{{this.answer}}</p>
-      {{else}}
-        <p>No answers.</p>
-      {{/each}}
-    </div>
-  </div>
 </div>

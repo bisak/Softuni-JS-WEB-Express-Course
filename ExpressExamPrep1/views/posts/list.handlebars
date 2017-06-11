@@ -9,4 +9,14 @@
   {{else}}
     <h2>No posts available.</h2>
   {{/each}}
+
+  <div class="font-3x">
+    {{#if hasPrevPage}}
+      <a href="/list/?page={{prevPage}}">&lt;&lt;</a>
+      &nbsp; &nbsp; &nbsp;
+    {{/if}}
+    {{#if hasNextPage}}
+      <a href="/list/?page={{nextPage}}">&gt;&gt;</a>
+    {{/if}}
+  </div>
 </div>

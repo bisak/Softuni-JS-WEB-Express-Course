@@ -119,7 +119,7 @@ module.exports = {
     }
 
     Car
-      .findByIdAndUpdate(id,{
+      .findByIdAndUpdate(id, {
         make: carReq.make,
         model: carReq.model,
         year: carReq.year,
