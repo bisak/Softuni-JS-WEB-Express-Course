@@ -1,0 +1,69 @@
+<div>
+  <div class="profile-top">
+    <h2>{{user.username}}</h2>
+    <h3>{{user.firstName}} {{user.lastName}}</h3>
+  </div>
+  <br>
+  <div class="profile-left">
+    <h3>Tweets</h3>
+    <br>
+    {{#each tweets}}
+      <div class="tweet">
+        <p><a href="/profile/{{this.creator.username}}">{{this.creator.username}}</a></p>
+        <div class="divider"></div>
+        <p>{{{this.content}}}</p>
+        <span style="float: right;">{{this.views}} views {{this.likesCount}} likes</span>
+
+        {{#if this.isLikedByCurrentUser}}
+          <a href="javascript:document.getElementById('unlike-form').submit()">Unlike</a>
+          <form id="unlike-form" action="/unlike-tweet/{{_id}}" method="POST"></form>
+        {{else}}
+          <a href="javascript:document.getElementById('like-form').submit()">Like</a>
+          <form id="like-form" action="/like-tweet/{{_id}}" method="POST"></form>
+        {{/if}}
+
+        {{#if ../isAdmin}}
+          <a href="/edit-tweet/{{this._id}}">Edit</a>
+          <span>|</span>
+          <a href="/delete-tweet/{{this._id}}">Delete</a>
+        {{/if}}
+      </div>
+      <br>
+    {{else}}
+      <h3>{{user.username}} has no tweets.</h3>
+      <br>
+      <br>
+    {{/each}}
+  </div>
+  <div class="profile-right">
+    <h3>Mentions</h3>
+    <br>
+    {{#each mentions}}
+      <div class="tweet">
+        <p><a href="/profile/{{this.creator.username}}">{{this.creator.username}}</a></p>
+        <div class="divider"></div>
+        <p>{{{this.content}}}</p>
+        <span style="float: right;">{{this.views}} views {{this.likesCount}} likes</span>
+
+        {{#if this.isLikedByCurrentUser}}
+          <a href="javascript:document.getElementById('unlike-form').submit()">Unlike</a>
+          <form id="unlike-form" action="/unlike-tweet/{{_id}}" method="POST"></form>
+        {{else}}
+          <a href="javascript:document.getElementById('like-form').submit()">Like</a>
+          <form id="like-form" action="/like-tweet/{{_id}}" method="POST"></form>
+        {{/if}}
+
+        {{#if ../isAdmin}}
+          <a href="/edit-tweet/{{this._id}}">Edit</a>
+          <span>|</span>
+          <a href="/delete-tweet/{{this._id}}">Delete</a>
+        {{/if}}
+      </div>
+      <br>
+    {{else}}
+      <h3>{{user.username}} has no mentions.</h3>
+      <a href="/tweet">Mention him!</a>
+      <br>
+    {{/each}}
+  </div>
+</div>

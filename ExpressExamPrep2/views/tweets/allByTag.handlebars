@@ -1,0 +1,37 @@
+<h2>Here are the latest 100 tweets with tag #{{tagName}}.</h2>
+
+<div class="divider"></div>
+
+<div>
+  <br>
+  <br>
+  {{#each tweets}}
+    <div class="tweet">
+      <p><a href="/profile/{{this.creator.username}}">{{this.creator.username}}</a></p>
+      <div class="divider"></div>
+      <p>{{{this.content}}}</p>
+      <span style="float: right;">{{this.views}} views {{this.likesCount}} likes</span>
+
+      {{#if ../currentUser}}
+        {{#if this.isLikedByCurrentUser}}
+          <a href="javascript:document.getElementById('unlike-form').submit()">Unlike</a>
+          <form id="unlike-form" action="/unlike-tweet/{{_id}}" method="POST"></form>
+        {{else}}
+          <a href="javascript:document.getElementById('like-form').submit()">Like</a>
+          <form id="like-form" action="/like-tweet/{{_id}}" method="POST"></form>
+        {{/if}}
+      {{/if}}
+
+      {{#if ../isAdmin}}
+        <a href="/edit-tweet/{{this._id}}">Edit</a>
+        <span>|</span>
+        <a href="/delete-tweet/{{this._id}}">Delete</a>
+      {{/if}}
+    </div>
+    <br>
+    <br>
+  {{else}}
+    <h2>Sorry, there are no tweets right now. Add the first one</h2>
+    <a href="/tweet">Add tweet</a>
+  {{/each}}
+</div>
