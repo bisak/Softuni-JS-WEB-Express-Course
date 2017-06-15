@@ -1,0 +1,39 @@
+<h1>Welcome to our Instagram thingy!</h1>
+<h2>Here are the latest 100 posts.</h2>
+
+<div class="divider"></div>
+
+<div>
+  <br>
+  <br>
+  {{#each posts}}
+    <div class="post">
+      <p><a href="/profile/{{this.creator.username}}">{{this.creator.username}}</a></p>
+      <div class="divider"></div>
+      <p>{{{this.description}}}</p>
+      <img src="{{this.image}}" alt="{{this.description}}">
+      <span style="float: right;">{{this.views}} views {{this.likesCount}} likes</span>
+
+      {{#if ../currentUser}}
+        {{#if this.isLikedByCurrentUser}}
+          <a href="javascript:document.getElementById('unlike-form').submit()">Unlike</a>
+          <form id="unlike-form" action="/unlike-post/{{_id}}" method="POST"></form>
+        {{else}}
+          <a href="javascript:document.getElementById('like-form').submit()">Like</a>
+          <form id="like-form" action="/like-post/{{_id}}" method="POST"></form>
+        {{/if}}
+      {{/if}}
+
+      {{#if ../isAdmin}}
+        <a href="/edit-post/{{this._id}}">Edit</a>
+        <span>|</span>
+        <a href="/delete-post/{{this._id}}">Delete</a>
+      {{/if}}
+    </div>
+    <br>
+    <br>
+  {{else}}
+    <h2>Sorry, there are no posts right now. Add the first one</h2>
+    <a href="/add">Add Post</a>
+  {{/each}}
+</div>

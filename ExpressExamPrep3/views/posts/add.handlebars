@@ -1,0 +1,18 @@
+<div>
+  <form method="post">
+    <label for="post">Add Post.</label>
+    <br>
+    <textarea name="description" id="post" cols="22" rows="2" maxlength="500" required
+              oninvalid="this.setCustomValidity('Description should be between 1 and 500 characters. (Backend validation is also present.)')"
+              oninput="setCustomValidity('')"></textarea>
+    <br>
+    <label for="image">Add image URL</label>
+    <br>
+    <input type="url" id="image" name="image" required
+           oninvalid="this.setCustomValidity('VALID URL is required (also validated by backend)')"
+           oninput="setCustomValidity('')">
+    <br>
+    <br>
+    <input type="submit">
+  </form>
+</div>
