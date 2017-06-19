@@ -1,0 +1,116 @@
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.single-post {
+  text-align: center;
+}
+
+.container {
+  padding-left: 15%;
+  padding-right: 15%;
+  text-align: center;
+}
+
+.menu {
+  list-style-type: none;
+  background-color: lightgray;
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.menu li {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.menu li a {
+  text-decoration: none;
+}
+
+.menu li:after {
+  content: "\00a0";
+}
+
+.smb {
+  margin-bottom: 40px;
+}
+
+.profile-left {
+  float: left;
+  width: 49%;
+  text-align: center;
+  border: 1px solid grey;
+}
+
+.profile-right {
+  float: right;
+  width: 49%;
+  text-align: center;
+  border: 1px solid grey;
+}
+
+.profile-top {
+  text-align: center;
+  border: 1px solid grey;
+}
+
+textarea {
+  max-width: 100%;
+}
+
+.post {
+  margin-left: 25%;
+  margin-right: 25%;
+  border: 1px solid darkgray;
+  width: 50%;
+  overflow: auto;
+}
+
+div.divider {
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid darkgray;
+}
+
+.profile-left .post {
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.profile-right .post {
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+img {
+  width: 200px;
+}
+
+fieldset {
+  border: none;
+}
+
+.rsmb{
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 1px solid black;
+  word-break: break-all;
+}
+
+.green{
+  color: green;
+}
+
+.blue{
+  color: darkorange;
+}

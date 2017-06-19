@@ -1,0 +1,52 @@
+<div>
+  <h1>Your messages with {{recipient}}</h1>
+
+  {{#if iBlockedHim}}
+    <form id="unblock-form" action="/unblock-user/{{recipient}}" method="POST"></form>
+    <p><a href="javascript:document.getElementById('unblock-form').submit()">Unblock user</a></p>
+  {{else}}
+    <form id="block-form" action="/block-user/{{recipient}}" method="POST"></form>
+    <p><a href="javascript:document.getElementById('block-form').submit()">Block user</a></p>
+  {{/if}}
+
+  {{#each messages}}
+    {{#each this.content}}
+      <div class="rsmb">
+        {{#if this.isMessageMine}}
+          <strong class="green">{{this.sender}}:</strong>
+        {{else}}
+          <strong class="blue">{{this.sender}}:</strong>
+        {{/if}}
+        {{{this.text}}}
+        {{#if this.islikedByCurrentUser}}
+          <a href="javascript:document.getElementById('unlike-form-{{this._id}}').submit()">Unlike</a>
+          <form style="display: inline;" id="unlike-form-{{this._id}}" action="/unlike-message/{{this._id}}"
+                method="POST"></form>
+        {{else}}
+          <a href="javascript:document.getElementById('like-form-{{this._id}}').submit()">Like</a>
+          <form style="display: inline;" id="like-form-{{this._id}}" action="/like-message/{{this._id}}"
+                method="POST"></form>
+        {{/if}}
+        <span>{{this.likes.length}} likes</span>
+      </div>
+    {{/each}}
+  {{/each}}
+  <form action="/send-message/{{recipient}}" method="post">
+
+    {{#if isBlocked}}
+    <fieldset disabled="disabled">
+      <span>{{recipient}} has blocked you.</span>
+    {{else}}
+    <fieldset>
+    {{/if}}
+
+    <label for="message"></label>
+    <br>
+    <br>
+    <textarea name="message" id="message" cols="60" rows="10" maxlength="1000" required></textarea>
+    <br>
+    <br>
+    <input type="submit" value="Send message">
+  </fieldset>
+  </form>
+</div>

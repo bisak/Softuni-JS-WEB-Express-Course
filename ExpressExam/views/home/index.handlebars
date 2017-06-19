@@ -1,0 +1,33 @@
+<h1>Welcome to our chat</h1>
+
+{{#if currentUser}}
+  <form method="get">
+    <label for="search-box">Search for user</label>
+    <br>
+    <br>
+    <input name="search" type="text" id="search-box">
+    <br>
+    <br>
+    <input type="submit" value="Search">
+  </form>
+{{/if}}
+
+<br>
+<br>
+{{#each users}}
+  <p>Start chat with <a href="/thread/{{this.username}}">{{this.username}}</a></p>
+{{/each}}
+
+{{#if threads}}
+  <h2>Your latest chats.</h2>
+{{/if}}
+<ol>
+  {{#each threads}}
+    {{#if this.from}}
+      <li><p>Chat with <a href="/thread/{{this.from.username}}">{{this.from.username}}</a></p></li>
+    {{/if}}
+    {{#if this.to}}
+      <li><p>Chat with <a href="/thread/{{this.to.username}}">{{this.to.username}}</a></p></li>
+    {{/if}}
+  {{/each}}
+</ol>
